@@ -7,5 +7,5 @@ jobs:
     working_directory: ~/app
     steps:
       - checkout
-      - run: echo ${CIRCLE_TARGET_BRANCH}
-      - run: sh ci-wcs.sh ${CIRCLE_BRANCH} ${CIRCLE_TARGET_BRANCH}
+ #     - run: echo ${CIRCLE_TARGET_BRANCH}
+      - run: sh ci-wcs.sh ${CIRCLE_BRANCH} ${CIRCLE_PR_NUMBER}
