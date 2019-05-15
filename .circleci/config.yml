@@ -1,0 +1,10 @@
+version: 2
+
+jobs:
+  build:
+    docker:
+      - image: circleci/php:7.1-node-browsers
+    working_directory: ~/app
+    steps:
+      - checkout
+      - run: sh ci-wcs.sh
