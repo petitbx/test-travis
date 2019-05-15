@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-branchName = $1
+branchName=$1
 
 if [ $branchName ]
 then
