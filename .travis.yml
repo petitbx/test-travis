@@ -1,5 +1,0 @@
-language: php
-sudo: false
-
-script:
-  - echo $TRAVIS_BRANCH
