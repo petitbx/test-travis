@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
-branchName = ${CIRCLE_BRANCH}
-
+branchName = $1
 
 if [ $branchName ]
 then
