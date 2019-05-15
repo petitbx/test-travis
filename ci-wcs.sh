@@ -12,7 +12,7 @@ then
    # echo $branchNameTarget
 fi
 
-if [[ -n ${CIRCLE_PR_NUMBER} ]]
+if [ $CIRCLE_PR_NUMBER ]
 then
     curl -L "https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64" \
       -o jq
