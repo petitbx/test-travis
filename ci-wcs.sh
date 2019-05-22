@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-branchNameBase=$TRAVIS_PULL_REQUEST_BRANCH
-branchDestination=$TRAVIS_BRANCH
+BRANCHNAMEBASE=$TRAVIS_PULL_REQUEST_BRANCH
+BRANCHDESTINATION=$TRAVIS_BRANCH
 
-if [ $branchNameBase ]
+if [ $BRANCHNAMEBASE ]
 then
     echo "You're on branch :"
     echo $branchNameBase
@@ -11,9 +11,9 @@ then
     echo $branchDestination
 fi
 
-prefix=$(echo $branchNameBase | tr "/" "\n")
+PREFIX=$(echo $BRANCHNAMEBASE | tr "/" "\n")
 
 echo "Prefix :"
-echo ${prefix[0]};
+echo ${PREFIX[0]};
 
 #if (($prefix[0] === "feat" || $prefix[0] === "fix") && $branchDestination === "dev")
