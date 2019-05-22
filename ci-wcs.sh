@@ -5,8 +5,14 @@ branchDestination=$TRAVIS_BRANCH
 
 if [ $branchNameBase ]
 then
-    echo "Vous etes sur la branch :"
+    echo "You're on branch :"
     echo $branchNameBase
-    echo "Voys voulez pousser sur la branch :"
+    echo "You try to push on branch :"
     echo $branchDestination
 fi
+
+prefix=$(echo $branchNameBase | tr "/" "\n")
+
+echo "{$prefix[0]}";
+
+#if (($prefix[0] === "feat" || $prefix[0] === "fix") && $branchDestination === "dev")
