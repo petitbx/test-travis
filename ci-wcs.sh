@@ -6,12 +6,12 @@ BRANCHDESTINATION=$TRAVIS_BRANCH
 if [ $BRANCHNAMEBASE ]
 then
     echo "You're on branch :"
-    echo $branchNameBase
+    echo $BRANCHNAMEBASE
     echo "You try to push on branch :"
-    echo $branchDestination
+    echo $BRANCHDESTINATION
 fi
 
-PREFIX=$(echo $BRANCHNAMEBASE | tr "/" "\n")
+TEST='/' read -ra PREFIX <<< "$BRANCHNAMEBASE"
 
 echo "Prefix :"
 echo ${PREFIX[0]};
