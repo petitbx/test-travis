@@ -3,3 +3,5 @@ language: php
 
   script:
     - echo $TRAVIS_BRANCH
+    - echo $TRAVIS_PULL_REQUEST_BRANCH
+    - echo "coucou"

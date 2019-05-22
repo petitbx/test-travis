@@ -1,9 +1,5 @@
 #!/usr/bin/env bash
 
-branchNameBase=$1
-CIRCLE_PR_NUMBER=$2
-GITHUB_TOKEN="921537988b09af69e70cdc1d9e03bc44a83a3c67"
-
 if [ $branchNameBase ]
 then
     echo "Vous etes sur la branch :"
