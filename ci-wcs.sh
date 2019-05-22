@@ -13,6 +13,6 @@ fi
 
 prefix=$(echo $branchNameBase | tr "/" "\n")
 
-echo "{$prefix[0]}";
+echo "${prefix[0]}";
 
 #if (($prefix[0] === "feat" || $prefix[0] === "fix") && $branchDestination === "dev")
