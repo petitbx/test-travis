@@ -33,8 +33,10 @@ if [ ${PREFIX[0]} = "hotfix" ] ; then
   fi
 fi
 
-FILES=$(git diff --name-only) | grep --exclude=*.spec.ts
+FILES=$(git diff --name-only . ':!*.spec.ts')
 NUMBERFILES=${#FILES[@]}
+
+echo "Number files $NUMBERFILES";
 
 if [ $NUMBERFILES -gt 10 ] ; then
   echo "Your PR contains too many files. You have $NUMBERFILES files.";
