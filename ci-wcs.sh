@@ -1,10 +1,8 @@
 #!/usr/bin/env bash
 
 BRANCHNAMEBASE=$TRAVIS_PULL_REQUEST_BRANCH
-BRANCHNAMEBASE="feat/circle"
-
 BRANCHDESTINATION=$TRAVIS_BRANCH
-BRANCHDESTINATION="dev"
+
 if [ $BRANCHNAMEBASE ]
 then
     echo "You're on branch :"
