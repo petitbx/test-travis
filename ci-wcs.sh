@@ -33,7 +33,7 @@ if [ ${PREFIX[0]} = "hotfix" ] ; then
   fi
 fi
 
-FILES=$(git diff --name-only)
+FILES=$(git diff --name-only) | grep --exclude=*.spec.ts
 NUMBERFILES=${#FILES[@]}
 
 if [ $NUMBERFILES -gt 10 ] ; then
