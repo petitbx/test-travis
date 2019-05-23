@@ -3,15 +3,6 @@
 BRANCHNAMEBASE=$TRAVIS_PULL_REQUEST_BRANCH
 BRANCHDESTINATION=$TRAVIS_BRANCH
 
-FILESTOTAL=$(git diff $BRANCHDESTINATION --name-only)
-FILES=$(git diff $BRANCHDESTINATION --name-only . ':!*.spec.ts')
-NUMBERFILES=${#FILES[@]}
-NUMBERFILESTOTAL=${#FILESTOTAL[@]}
-
-echo "Number files $NUMBERFILES";
-echo "Number filestotal $NUMBERFILESTOTAL";
-
-
 if [ $BRANCHNAMEBASE ]
 then
     echo "You're on branch :"
@@ -42,14 +33,33 @@ if [ ${PREFIX[0]} = "hotfix" ] ; then
   fi
 fi
 
-FILES=$(git diff --name-only . ':!*.spec.ts')
-NUMBERFILES=${#FILES[@]}
-
-echo "Number files $NUMBERFILES";
+FILES=$(git diff $BRANCHDESTINATION --name-only . ':!*.spec.ts')
+FILESARRAY=($FILES)
+NUMBERFILES=${#FILESARRAY[@]}
 
 if [ $NUMBERFILES -gt 10 ] ; then
   echo "Your PR contains too many files. You have $NUMBERFILES files.";
   echo "As a reminder, you must have 10 files max.";
   exit 1;
 fi
+
+FRONT="false";
+BACK="false";
+
+for i in "${FILESARRAY[@]}"; do
+  IFS='/' read -ra FOLDER <<< "$i";
+  if [ ${FOLDER[0]} = "back" ] ; then
+    BACK="true";
+  fi
+  if [ ${FOLDER[0]} = "front" ] ; then
+    BACK="front";
+  fi
+done
+
+if [ $BACK = "true" ] && [ $FRONT = "true" ] ; then
+  echo "Not allowed to update back and front for one PR.";
+  exit 1;
+fi
+
+
 
