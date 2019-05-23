@@ -1,22 +1,65 @@
 #!/usr/bin/env bash
 
-if [ $branchNameBase ]
+BRANCHNAMEBASE=$TRAVIS_PULL_REQUEST_BRANCH
+BRANCHDESTINATION=$TRAVIS_BRANCH
+
+if [ $BRANCHNAMEBASE ]
 then
-    echo "Vous etes sur la branch :"
-    echo $branchNameBase
-   # echo "Voys voulez pousser sur la branch :"
-   # echo $branchNameTarget
+    echo "You're on branch :"
+    echo $BRANCHNAMEBASE
+    echo "You try to push on branch :"
+    echo $BRANCHDESTINATION
 fi
 
-if [ $CIRCLE_PR_NUMBER ]
-then
-    curl -L "https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64" \
-      -o jq
-    chmod +x jq
-    url="https://api.github.com/repos/org/repo/pulls/$CIRCLE_PR_NUMBER?access_token=$GITHUB_TOKEN"
-    target_branch=$(
-      curl "$url" | ./jq '.base.ref' | tr -d '"'
-    )
+IFS='/' read -ra PREFIX <<< "$BRANCHNAMEBASE"
+
+if [ ${PREFIX[0]} != "feat" ] && [ ${PREFIX[0]} != "fix" ] && [ ${PREFIX[0]} != "hotfix" ] ; then
+  echo "Bad naming of branch !!!";
+  echo "As a reminder, your branch must start with the prefix 'feat' or 'fix' or 'hotfix' !!!!!!";
+  exit 1;
 fi
 
-echo $target_branch
+if [ ${PREFIX[0]} = "feat" ] || [ ${PREFIX[0]} = "fix" ] ; then
+  if [ $BRANCHDESTINATION != "dev" ] ; then
+    echo "Not allowed to push on branch ${BRANCHDESTINATION} with prefix ${PREFIX[0]}. Only dev";
+    exit 1;
+  fi
+fi
+
+if [ ${PREFIX[0]} = "hotfix" ] ; then
+  if [ $BRANCHDESTINATION != "master" ] ; then
+    echo "Not allowed to push on branch ${BRANCHDESTINATION} with prefix ${PREFIX[0]}. Only master";
+    exit 1;
+  fi
+fi
+
+FILES=$(git diff $BRANCHDESTINATION --name-only . ':!*.spec.ts')
+FILESARRAY=($FILES)
+NUMBERFILES=${#FILESARRAY[@]}
+
+if [ $NUMBERFILES -gt 10 ] ; then
+  echo "Your PR contains too many files. You have $NUMBERFILES files.";
+  echo "As a reminder, you must have 10 files max.";
+  exit 1;
+fi
+
+FRONT="false";
+BACK="false";
+
+for i in "${FILESARRAY[@]}"; do
+  IFS='/' read -ra FOLDER <<< "$i";
+  if [ ${FOLDER[0]} = "back" ] ; then
+    BACK="true";
+  fi
+  if [ ${FOLDER[0]} = "front" ] ; then
+    BACK="front";
+  fi
+done
+
+if [ $BACK = "true" ] && [ $FRONT = "true" ] ; then
+  echo "Not allowed to update back and front for one PR.";
+  exit 1;
+fi
+
+
+
