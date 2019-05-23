@@ -3,8 +3,8 @@
 BRANCHNAMEBASE=$TRAVIS_PULL_REQUEST_BRANCH
 BRANCHDESTINATION=$TRAVIS_BRANCH
 
-FILESTOTAL=$(git diff --name-only)
-FILES=$(git diff --name-only . ':!*.spec.ts')
+FILESTOTAL=$(git diff $BRANCHDESTINATION --name-only)
+FILES=$(git diff $BRANCHDESTINATION --name-only . ':!*.spec.ts')
 NUMBERFILES=${#FILES[@]}
 NUMBERFILESTOTAL=${#FILESTOTAL[@]}
 
