@@ -3,6 +3,12 @@
 BRANCHNAMEBASE=$TRAVIS_PULL_REQUEST_BRANCH
 BRANCHDESTINATION=$TRAVIS_BRANCH
 
+FILES=$(git diff --name-only . ':!*.spec.ts')
+NUMBERFILES=${#FILES[@]}
+
+echo "Number files $NUMBERFILES";
+
+
 if [ $BRANCHNAMEBASE ]
 then
     echo "You're on branch :"
